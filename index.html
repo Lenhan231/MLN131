@@ -406,7 +406,7 @@ function classify(el,type){
   }
 }
 
-const CHAT_API='https://repugnant-unwagged-susan.ngrok-free.dev/api/chat';
+const CHAT_API='/api/chat';
 const chatToggle=document.querySelector('.chat-toggle');
 const chatPanel=document.querySelector('.chat-panel');
 const chatClose=document.querySelector('.chat-close');
@@ -439,7 +439,7 @@ chatForm.addEventListener('submit',async event=>{
   addChatMessage(query,'user');
   chatInput.value='';
   chatSend.disabled=true;
-  const waiting=addChatMessage('Đang tìm trong giáo trình…','bot');
+  const waiting=addChatMessage('Đang suy nghĩ…','bot');
   try{
     const response=await fetch(CHAT_API,{method:'POST',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'},body:JSON.stringify({query,session_id:chatSessionId})});
     if(!response.ok) throw new Error('HTTP '+response.status);

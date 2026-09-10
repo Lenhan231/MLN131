@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/chat",
+      "destination": "https://repugnant-unwagged-susan.ngrok-free.dev/api/chat"
+    }
+  ]
+}
