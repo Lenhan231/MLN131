@@ -51,8 +51,9 @@
   .big{font-size:clamp(1.5rem,3vw,3rem);font-family:"Times New Roman",Times,serif}
   .center{display:grid;place-items:center;text-align:center;min-height:72vh}
   .question{font-family:"Times New Roman",Times,serif;font-size:clamp(2rem,4.6vw,5rem);line-height:1.05;max-width:1100px}
-  .timeline{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:.8rem;overflow-x:auto;padding-bottom:.4rem}
+  .timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;padding-bottom:.4rem}
   .era{cursor:pointer;transition:.2s}
+  .era p{font-size:1rem;line-height:1.5}
   .era:hover,.era.open{transform:translateY(-3px);border-color:var(--accent2)}
   .era .detail{display:none;color:var(--muted);font-size:.96rem;line-height:1.45;margin-top:.7rem}
   .era.open .detail{display:block}
