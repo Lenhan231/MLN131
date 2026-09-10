@@ -93,6 +93,21 @@
   .job.result-maybe{outline:3px solid #b88746}
   .job small{display:block;color:var(--muted);margin-top:.5rem}
   .source{font-size:.86rem;color:var(--muted);margin-top:1rem}
+  .chat-toggle{position:fixed;right:22px;bottom:78px;z-index:40;width:58px;height:58px;border:0;border-radius:50%;background:var(--accent);color:#fff;font-size:1.55rem;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .chat-panel{position:fixed;right:22px;bottom:148px;z-index:40;width:min(380px,calc(100vw - 28px));height:min(520px,calc(100vh - 180px));display:none;grid-template-rows:auto 1fr auto;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 42px rgba(0,0,0,.25);overflow:hidden}
+  .chat-panel.open{display:grid}
+  .chat-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--dark);color:#fff}
+  .chat-head strong{font-family:"Times New Roman",Times,serif;font-size:1.15rem}
+  .chat-close{border:0;background:transparent;color:#fff;font-size:1.4rem;cursor:pointer}
+  .chat-messages{overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .chat-message{max-width:88%;padding:10px 12px;border-radius:12px;line-height:1.45;white-space:pre-wrap}
+  .chat-message.bot{align-self:flex-start;background:#efe5d3}
+  .chat-message.user{align-self:flex-end;background:var(--accent);color:#fff}
+  .chat-message.error{color:#8c1d18}
+  .chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:#fff}
+  .chat-input{min-width:0;flex:1;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+  .chat-send{border:0;border-radius:10px;padding:0 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+  .chat-send:disabled{opacity:.55;cursor:wait}
   @media(max-width:900px){
     .g2,.g3,.classification,.vs{grid-template-columns:1fr}
     .vs .mid{display:none}
@@ -358,6 +373,16 @@
 
 </div>
 
+<button class="chat-toggle" type="button" aria-label="Mở trợ lý MLN131" aria-expanded="false">💬</button>
+<aside class="chat-panel" aria-label="Trợ lý MLN131" aria-hidden="true">
+  <div class="chat-head"><strong>Trợ lý MLN131</strong><button class="chat-close" type="button" aria-label="Đóng">×</button></div>
+  <div class="chat-messages" aria-live="polite"><div class="chat-message bot">Chào bạn! Hãy hỏi mình về môn Kinh tế chính trị Mác – Lênin.</div></div>
+  <form class="chat-form">
+    <input class="chat-input" aria-label="Câu hỏi" placeholder="Nhập câu hỏi..." autocomplete="off" required>
+    <button class="chat-send" type="submit">Gửi</button>
+  </form>
+</aside>
+
 <script>
 function toggleAnswer(btn){
   const a=btn.nextElementSibling;a.classList.toggle('show');
@@ -380,6 +405,55 @@ function classify(el,type){
     box.innerHTML='<strong>Không thể kết luận chỉ từ tên nghề.</strong> Có thể thuộc hoặc không thuộc tùy vị trí trong quan hệ sản xuất: người làm công ăn lương, không sở hữu tư liệu sản xuất chủ yếu khác với người sở hữu cơ sở, doanh nghiệp hoặc tư bản.';
   }
 }
+
+const CHAT_API='https://repugnant-unwagged-susan.ngrok-free.dev/api/chat';
+const chatToggle=document.querySelector('.chat-toggle');
+const chatPanel=document.querySelector('.chat-panel');
+const chatClose=document.querySelector('.chat-close');
+const chatForm=document.querySelector('.chat-form');
+const chatInput=document.querySelector('.chat-input');
+const chatSend=document.querySelector('.chat-send');
+const chatMessages=document.querySelector('.chat-messages');
+let chatSessionId=null;
+
+function setChat(open){
+  chatPanel.classList.toggle('open',open);
+  chatPanel.setAttribute('aria-hidden',String(!open));
+  chatToggle.setAttribute('aria-expanded',String(open));
+  if(open) chatInput.focus();
+}
+function addChatMessage(text,type){
+  const message=document.createElement('div');
+  message.className='chat-message '+type;
+  message.textContent=text;
+  chatMessages.appendChild(message);
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+  return message;
+}
+chatToggle.addEventListener('click',()=>setChat(!chatPanel.classList.contains('open')));
+chatClose.addEventListener('click',()=>setChat(false));
+chatForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const query=chatInput.value.trim();
+  if(!query) return;
+  addChatMessage(query,'user');
+  chatInput.value='';
+  chatSend.disabled=true;
+  const waiting=addChatMessage('Đang tìm trong giáo trình…','bot');
+  try{
+    const response=await fetch(CHAT_API,{method:'POST',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'},body:JSON.stringify({query,session_id:chatSessionId})});
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    chatSessionId=data.session_id||chatSessionId;
+    waiting.textContent=data.answer||'Không có câu trả lời.';
+  }catch(error){
+    waiting.textContent='Không thể kết nối chatbot. Vui lòng thử lại sau.';
+    waiting.classList.add('error');
+  }finally{
+    chatSend.disabled=false;
+    chatInput.focus();
+  }
+});
 </script>
 </body>
 </html>
