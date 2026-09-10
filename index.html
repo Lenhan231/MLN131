@@ -291,25 +291,25 @@
 
 <section class="slide">
   <div class="kicker">9 · Công nhân thời C. Mác và hiện nay</div>
-  <h2>Giống về bản chất, đổi về hình thức</h2>
+  <h2>Điểm ổn định và những biến đổi hiện nay</h2>
   <div class="vs">
     <div class="card">
-      <h3>Thế kỷ XIX</h3>
+      <h3>Điểm tương đối ổn định</h3>
       <ul class="clean">
-        <li>Chủ yếu lao động công nghiệp cơ khí.</li>
-        <li>Lao động chân tay chiếm tỷ trọng lớn.</li>
-        <li>Nhà máy tập trung, dây chuyền cơ giới.</li>
-        <li>Đối lập tư bản — lao động dễ quan sát hơn.</li>
+        <li>Vẫn là lực lượng sản xuất hàng đầu của xã hội hiện đại.</li>
+        <li>Vẫn là chủ thể của nền sản xuất công nghiệp có tính xã hội hóa cao.</li>
+        <li>Ở các nước tư bản, vẫn không sở hữu tư liệu sản xuất chủ yếu và bị bóc lột giá trị thặng dư.</li>
+        <li>Xung đột lợi ích cơ bản giữa tư bản và lao động vẫn tồn tại.</li>
       </ul>
     </div>
     <div class="mid">→</div>
     <div class="card">
-      <h3>Hiện nay</h3>
+      <h3>Biến đổi và khác biệt</h3>
       <ul class="clean">
-        <li>Tri thức hóa ngày càng mạnh.</li>
-        <li>Lao động trực tiếp + gián tiếp.</li>
-        <li>Công nghệ số, tự động hóa, AI, robot.</li>
-        <li>Chuỗi cung ứng toàn cầu và nhiều hình thức việc làm mới.</li>
+        <li>Xu hướng “trí tuệ hóa”: tăng lao động trình độ cao, công nhân tri thức.</li>
+        <li>Một bộ phận “trung lưu hóa” về mức sống hoặc tham gia sở hữu cổ phần, nhưng quyền quyết định vẫn thuộc cổ đông lớn.</li>
+        <li>Cơ cấu xã hội, nghề nghiệp và thu nhập ngày càng đa dạng.</li>
+        <li>Vai trò chính trị khác nhau giữa các nước tư bản và các nước xã hội chủ nghĩa.</li>
       </ul>
     </div>
   </div>
@@ -319,12 +319,12 @@
 <section class="slide">
   <div class="kicker">10 · Câu hỏi gây tranh luận</div>
   <h2>Bác sĩ, giảng viên, lập trình viên có phải “giai cấp công nhân”?</h2>
-  <p>Không thể quyết định chỉ bằng tên nghề. Hãy bấm từng nghề.</p>
+  <p>Xét hai tiêu chí: họ có tham gia trực tiếp hoặc gián tiếp vào sản xuất công nghiệp hiện đại không, và có sở hữu tư liệu sản xuất chủ yếu không?</p>
   <div class="classification">
-    <div class="card job" onclick="classify(this,'maybe')"><h3>Bác sĩ</h3><small>Bấm để phân loại</small></div>
-    <div class="card job" onclick="classify(this,'maybe')"><h3>Giảng viên</h3><small>Bấm để phân loại</small></div>
-    <div class="card job" onclick="classify(this,'maybe')"><h3>Lập trình viên</h3><small>Bấm để phân loại</small></div>
-    <div class="card job" onclick="classify(this,'yes')"><h3>Kỹ sư dây chuyền</h3><small>Bấm để phân loại</small></div>
+    <div class="card job" onclick="classify(this,'doctor')"><h3>Bác sĩ</h3><small>Bấm để xem kết luận</small></div>
+    <div class="card job" onclick="classify(this,'lecturer')"><h3>Giảng viên</h3><small>Bấm để xem kết luận</small></div>
+    <div class="card job" onclick="classify(this,'programmer')"><h3>Lập trình viên</h3><small>Bấm để xem kết luận</small></div>
+    <div class="card job" onclick="classify(this,'engineer')"><h3>Kỹ sư dây chuyền</h3><small>Bấm để xem kết luận</small></div>
   </div>
   <div id="classifyAnswer" class="answer"></div>
   <div class="quote"><strong>Điểm chốt:</strong> phải xét vị trí trong quá trình lao động xã hội và quan hệ với tư liệu sản xuất, không chỉ xét nghề nghiệp. Vì vậy một nghề có thể chứa những vị trí giai cấp khác nhau.</div>
@@ -408,14 +408,16 @@ function tab(btn,id){
 }
 function classify(el,type){
   document.querySelectorAll('.job').forEach(j=>j.classList.remove('result-yes','result-maybe'));
-  el.classList.add(type==='yes'?'result-yes':'result-maybe');
+  const answers={
+    doctor:'<strong>Thông thường: không xếp trực tiếp.</strong> Bác sĩ là lao động chuyên môn, nhưng tên nghề này chưa cho thấy họ gắn với quá trình sản xuất công nghiệp. Việc làm công ăn lương chỉ đáp ứng một phần tiêu chí.',
+    lecturer:'<strong>Thông thường: không xếp trực tiếp.</strong> Giảng viên thuộc lao động trí thức; không sở hữu tư liệu sản xuất vẫn chưa đủ nếu công việc không gắn với phương thức sản xuất công nghiệp hiện đại.',
+    programmer:'<strong>Có thể thuộc, tùy vị trí.</strong> Lập trình viên làm thuê, trực tiếp hoặc gián tiếp vận hành hệ thống sản xuất công nghiệp hiện đại có thể phù hợp; người sở hữu doanh nghiệp hoặc làm ngoài quá trình đó thì không thể kết luận như vậy.',
+    engineer:'<strong>Có cơ sở rõ nhất.</strong> Kỹ sư làm thuê, không sở hữu tư liệu sản xuất chủ yếu và trực tiếp hoặc gián tiếp vận hành dây chuyền công nghiệp phù hợp với cả hai tiêu chí của giáo trình.'
+  };
+  el.classList.add(type==='engineer'?'result-yes':'result-maybe');
   const box=document.getElementById('classifyAnswer');
   box.classList.add('show');
-  if(type==='yes'){
-    box.innerHTML='<strong>Có cơ sở rõ hơn.</strong> Công việc gắn trực tiếp với hệ thống sản xuất công nghiệp hiện đại. Nhưng vẫn phải xét quan hệ sở hữu và lao động cụ thể.';
-  }else{
-    box.innerHTML='<strong>Không thể kết luận chỉ từ tên nghề.</strong> Có thể thuộc hoặc không thuộc tùy vị trí trong quan hệ sản xuất: người làm công ăn lương, không sở hữu tư liệu sản xuất chủ yếu khác với người sở hữu cơ sở, doanh nghiệp hoặc tư bản.';
-  }
+  box.innerHTML=answers[type];
 }
 
 const CHAT_API='/api/chat';
